@@ -72,7 +72,7 @@ The following remain outside the completed MOT0.2 scope and require separate pla
 6. **Do not use CI as an interactive debugger.** Let an active run finish before pushing more work unless an urgent fix is necessary; then consolidate the fix. Inspect failure logs and prefer rerunning only the failed job on the same SHA where supported. Never create no-op commits to trigger CI.
 7. **Reuse passing results.** Record SHA and environment. Do not repeat checks if relevant code/dependencies/configuration are unchanged; do not rerun successful jobs without a technical reason.
 8. **Limit infrastructure retries.** After an infrastructure/environment failure, allow at most one retry with a materially different setup. If it fails again, stop and mark it BLOCKED.
-9. **Protect required checks.** Do not add path filters, skip-CI markers, or conditional skips until required-check and branch-protection consequences are verified.
+9. **Protect required checks.** Do not add workflow-level path filters or skip-CI markers. The required `build` check must always report; the docs-only fast path in [docs/CI.md](docs/CI.md) skips steps and the emulator job with job-level conditions, which was verified (a skipped job counts as passing).
 10. **Ask before expanding verification.** Obtain owner approval before substantially widening the test matrix or exceeding the CI budget.
 11. **Keep device checks separate.** Real-device, live-source, and manual checks remain NOT TESTED or DEFERRED until performed.
 12. **Report exact evidence.** State workflow run, tested commit SHA, pass/fail results, checks not run, and blockers. Never claim an unrun or uninspected check passed.

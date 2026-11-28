@@ -24,11 +24,11 @@ This document preserves the repository-extraction decisions from 2026-11-21. The
 
 ## MOT0.3B status — contract and implementation spike
 
-- The animated toolbar contract is documented in `docs/MOT0.3B_TOOLBAR_PLAN.md` and remains a proposal until reviewed against the prototype.
-- The current spike is intentionally hosted in Motion Lab, not yet exposed as a public `:motion-ui` API.
+- The animated toolbar contract in `docs/MOT0.3B_TOOLBAR_PLAN.md` is accepted (PR #25).
+- The prototype is merged in Motion Lab (PR #26, merge commit `109b4e3`). It is intentionally not exposed as a public `:motion-ui` API; the public API is roadmap milestone M1 (`docs/MOTION_ROADMAP.md`).
 - The spike exercises stable-ID host progress, variable-width geometry, optional long-press drag with RTL-aware edge auto-scroll, a connected/retractable contextual-action morph with one semantic button target, two configurable visual profiles, and strict single-tab-stop keyboard focus with RTL-aware directional navigation.
-- The sample-only implementation and its 15 pure geometry/interaction unit tests passed required CI run #197 on exact head `75b6c9dacfb5079fc12dbcc36e0f4789f8d97b40` (Spotless, Core tests/release build, Motion UI tests/release build, Motion Lab unit tests/debug build).
-- Public API design follows only after manual interaction/accessibility review and focused Compose UI tests. Emulator, TalkBack traversal, real focus appearance, contrast, font-scale, live reduced-motion preference changes, connector hit testing, and physical haptic checks remain deferred until performed.
+- The sample-only implementation and its 15 pure geometry/interaction unit tests passed CI run #197 on exact head `75b6c9dacfb5079fc12dbcc36e0f4789f8d97b40` (Spotless, Core tests/release build, Motion UI tests/release build, Motion Lab unit tests/debug build).
+- Public API design (M1) follows only after manual interaction/accessibility review and focused Compose UI tests. Emulator, TalkBack traversal, real focus appearance, contrast, font-scale, live reduced-motion preference changes, connector hit testing, and physical haptic checks remain deferred until performed.
 
 ## Original decisions (2026-11-21)
 

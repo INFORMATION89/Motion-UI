@@ -49,9 +49,9 @@ Not part of done: platform expansion (iOS/desktop), consumer migrations (separat
 |---|---|---|---|
 | M0-1 | Owner review and merge of #28 (docs) and #29 (AmbientClock, Core behavior change, O2 approved). **Done 2026-11-28:** #29 `88afabb`, #28 `d15025f`; CI run #232 green on `main`. | Owner | — |
 | M0-2 | S5: #26 prototype fixes (B4, B6) | S | — |
-| M0-3 | S6: emulator job required for code PRs, docs-only skip (Q3 decided) | S | #26 merged or on #26 |
-| M0-4 | S7: resolve #26 doc conflicts with refreshed `main` | S | M0-1 |
-| M0-5 | Owner: merge #26 as the Lab prototype, so the M1 work builds on `main` | Owner | M0-2…M0-4 |
+| M0-3 | S6: emulator job required for code PRs, docs-only skip (Q3 decided). **Done 2026-11-28:** `changes` job plus conditional `build`/emulator jobs; see `docs/CI.md`. | S | #26 merged or on #26 |
+| M0-4 | S7: resolve #26 doc conflicts with refreshed `main`. **Done 2026-11-28:** conflicts resolved by merging `main` into #26 before merge. | S | M0-1 |
+| M0-5 | Owner: merge #26 as the Lab prototype, so the M1 work builds on `main`. **Done 2026-11-28:** #26 merged as `109b4e3`; the fast job was renamed back to `build` in `3aa0dc0` because branch protection requires that check name. | Owner | M0-2…M0-4 |
 | M0-6 | H1, H6–H9 from CONTINUE.md | H/F | as listed |
 
 ### M1: toolbar public API (completes MOT0.3B)
@@ -130,7 +130,7 @@ Owner decision first: Haze's exact version, licence, maintenance, compatibility 
 
 ## Owner decisions still needed (in order of need)
 
-1. Merge #28, #29 (M0-1) and #26 (M0-5).
+1. ~~Merge #28, #29 (M0-1) and #26 (M0-5).~~ Done 2026-11-28.
 2. Approve the toolbar API (M1-2).
 3. Approve the Core public/internal split and mutable-globals plan (M2-2). This one is breaking.
 4. Approve the card/sheet contract (M3-2), then the page-frame and message-surface contract (M4-2).
