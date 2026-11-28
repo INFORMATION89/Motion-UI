@@ -2,9 +2,9 @@
 
 ## Status
 
-Proposal only. This document defines the reusable component contract and a staged implementation. It does not commit the project to a final public Kotlin API, copy third-party implementation code, or migrate a consumer application.
+Contract accepted and merged into `main` on 2026-11-27 (PR #25). This document defines the reusable component contract and a staged implementation. It still does not commit the project to a final public Kotlin API; an internal Motion Lab prototype is in draft PR #26 and is under review. It does not copy third-party implementation code, or migrate a consumer application.
 
-**Prerequisite:** MOT0.3A theme/token foundation (the optional Motion UI module) is reviewed and accepted.
+**Prerequisite:** MOT0.3A theme/token foundation (the optional Motion UI module) is met (merged into `main` on 2026-11-27, PR #13).
 
 ## 1. Goal
 

@@ -18,6 +18,8 @@ MOT0.1 is complete and merged into `main`.
 
 MOT0.2 (standalone Motion Lab) is complete and merged into `main`. The delivered `:motion-lab` Android app, Components / Interactions tabs, and automatic system appearance are documented in [docs/MOT0.2_PLAN.md](docs/MOT0.2_PLAN.md). Treat that plan as historical acceptance evidence, not an active implementation queue. The former unbuilt `lab/` prototype was removed after a provenance and license review; see [the disposition record](docs/LEGACY_PROTOTYPE_DISPOSITION.md).
 
+MOT0.3A (the `:motion-ui` theme/token foundation) is merged into `main`, and the MOT0.3B toolbar contract is accepted; the public toolbar API and the Motion Lab prototype (PR #26) remain under review.
+
 The following remain outside the completed MOT0.2 scope and require separate planning/review:
 - Changes to Motion Core physics or existing user-visible motion contracts.
 - New public Core APIs without a separately reviewed reusable capability gap.
@@ -88,3 +90,5 @@ Repository-specific rules in this file supplement the shared policy; they do not
 - Choose the smallest capable model and escalate based on task risk or demonstrated difficulty. Claude Opus 5.5 is for demanding work, not routine edits.
 - Treat subscription allowances and API billing as separate. Do not enable paid API usage, buy credits, or incur open-ended spend without owner approval.
 - Keep context focused, reuse valid evidence, and stop repetitive or unproductive agent/tool loops.
+- Attribute AI work in the PR's "Tool and tier" section with a simple model label (Opus 5.5, Sonnet 5.5, Haiku 5.5, ChatGPT Free); commit trailers only when truly necessary. See "AI attribution" in [the policy](docs/AI_USAGE_POLICY.md).
+- If the active tool or model has a guide under [docs/agent-guides/](docs/agent-guides/), read it as supplementary advice; it never overrides the policy or this file.

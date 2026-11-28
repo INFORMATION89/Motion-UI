@@ -14,13 +14,13 @@ This document preserves the repository-extraction decisions from 2026-11-21. The
 - Desktop (Windows/macOS/Linux) and iOS support are future design work, not supported targets.
 - Physical-device validation remains NOT TESTED / DEFERRED while suitable hardware is unavailable. Passing CI does not establish device behavior.
 
-## MOT0.3A status — under review
+## MOT0.3A status — delivered
 
 - The optional `:motion-ui` Android library is included in Gradle and depends on `:motion`; Core has no dependency on UI.
 - Its initial public API is `MotionUiTheme`, `MotionUiThemeTokens.current`, and configurable semantic shape, spacing, and surface-material tokens.
 - Neutral defaults derive surface colors from the caller's Material 3 color scheme. Apps can inject their own Material 3 theme values and replace Motion UI tokens.
 - No Haze dependency, glass rendering implementation, visual components, consumer code, or dependency-pin changes are included in the foundation.
-- Final acceptance requires fresh CI on the cleaned PR head.
+- Merged into `main` on 2026-11-27 (PR #13); required CI passed on the final PR head `1c87bfd` (run #176) and on `main` at `51420fd` (run #202).
 
 ## Original decisions (2026-11-21)
 
