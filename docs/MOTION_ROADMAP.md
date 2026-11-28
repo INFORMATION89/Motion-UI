@@ -47,7 +47,7 @@ Not part of done: platform expansion (iOS/desktop), consumer migrations (separat
 
 | ID | Task | Tier | Depends on |
 |---|---|---|---|
-| M0-1 | Owner review and merge of #28 (docs) and #29 (AmbientClock, Core behavior change, O2 approved) | Owner | — |
+| M0-1 | Owner review and merge of #28 (docs) and #29 (AmbientClock, Core behavior change, O2 approved). **Done 2026-11-28:** #29 `88afabb`, #28 `d15025f`; CI run #232 green on `main`. | Owner | — |
 | M0-2 | S5: #26 prototype fixes (B4, B6) | S | — |
 | M0-3 | S6: emulator job required for code PRs, docs-only skip (Q3 decided) | S | #26 merged or on #26 |
 | M0-4 | S7: resolve #26 doc conflicts with refreshed `main` | S | M0-1 |
