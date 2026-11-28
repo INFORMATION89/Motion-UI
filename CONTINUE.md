@@ -20,25 +20,27 @@ Working handoff for the next session. Keep it in step with the actual branches, 
 
 ## State (2026-11-28)
 
-`main` is at `51420fd` (CI run #202 green). MOT0.1, MOT0.2 and MOT0.3A are delivered; the MOT0.3B toolbar contract is accepted, with no public toolbar API yet.
+`main` is at `d15025f` (CI run #232 green). MOT0.1, MOT0.2 and MOT0.3A are delivered; the MOT0.3B toolbar contract is accepted, with no public toolbar API yet. #28 and #29 are merged; **#26 is the only open PR**.
 
 | PR | What | State |
 |---|---|---|
-| #28 | Status sync, Opus review, tiered AI routing, attribution rule, Sonnet session plan (docs only) | Draft, CI green on every commit. Waiting on owner review and Q1–Q6. |
-| #29 | S2: Core `AmbientClock` pauses frame requests while inactive and holds the requested cadence | Draft, CI run #226 green. Opus 5.5 review (O2) approved with three optional nits. **Needs owner approval** (user-visible motion change). |
-| #26 | Motion Lab toolbar prototype | Draft, CI run #222 green (both jobs). Review findings B1–B7 open; S5 next. |
+| #29 | S2: Core `AmbientClock` pauses frame requests while inactive and holds the requested cadence | Merged 2026-11-28, merge commit `88afabb`. Owner-approved Core behavior change. H7 fixed O2 nits 1 and 3 (`7dcae66`); nit 2 (a test that frames are skipped) is still open and optional. |
+| #28 | Status sync, Opus review, tiered AI routing, attribution rule, Sonnet session plan, roadmap (docs only) | Merged 2026-11-28, merge commit `d15025f`; CI run #232 green on `main`. Q2–Q5 are decided; Q1 and Q6 are open. |
+| #26 | Motion Lab toolbar prototype | **Open (draft).** Head `a8d616d`, CI run #233 green (both jobs). S5 done: B4 and B6 fixed; `main` merged in, conflicts resolved. B1–B3 are still open. |
 
-Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-scope` is now split: the test fix went to #26, the Core change to #29, and the research docs are task S3.
+Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-scope` is now split: the test fix went to #26, the Core change to #29 (merged), and the research docs are task S3.
 
 ## Next steps
 
 The full plan to 1.0 is in [docs/MOTION_ROADMAP.md](docs/MOTION_ROADMAP.md): the definition of done, the audit findings, milestones M0–M7 with tiers and dependencies, and the owner decisions in order. Work through it one task row per session.
 
-Start now, in parallel:
-1. **Owner:** review and merge #28 and #29 (roadmap M0-1). Q1 and Q6 are still open.
-2. **S5** (Sonnet 5.5, Motion-UI environment): #26 prototype fixes (M0-2). Prompt: "Session B prompt (S5)" in the [handoff](docs/CHATGPT_HANDOFF.md).
-3. **M2-4 and M2-5** (Sonnet 5.5): Core finite-validation gaps and tests for untested public APIs. Neither needs owner approval.
-4. **H tasks** below (Haiku 5.5 or ChatGPT Free).
+Done: M0-1 (#28 and #29 merged) and M0-2 (S5 on #26). Next, in parallel:
+1. **Owner:** answer Q1 and Q6 in the [handoff](docs/CHATGPT_HANDOFF.md); review #26 (roadmap M0-5 after M0-3 and M0-4).
+2. **M0-3 / S6** (Sonnet 5.5): emulator job required for code PRs, docs-only skip (Q3 decided).
+3. **M0-4 / S7** (Sonnet 5.5): the #26 doc conflicts with `main` were resolved by merging `main` (taking `main`'s `CONTINUE.md` and plan status); S7 only needs to confirm nothing else overlaps.
+4. **M2-4 and M2-5** (Sonnet 5.5): Core finite-validation gaps and tests for untested public APIs. Neither needs owner approval.
+5. **S3** (ChatGPT Free, owner-assigned): research docs in their own docs-only PR.
+6. **O3** (Opus 5.5): smallest public toolbar API, after Q4 and the B1–B3 design.
 
 ## Haiku tasks (tier H)
 
@@ -46,10 +48,10 @@ Mechanical and easy to verify. Run in Claude Code with Haiku 5.5. Tasks marked *
 
 | ID | Task | F-eligible | Done when |
 |---|---|---|---|
-| H1 | Update PR #26's "Verification status": `f1ed520` cherry-picks only `956f044`; run #222 passed both jobs on `6812d7d`; #216/#217 are superseded history; link the Opus review (B1–B7). Keep the manual-validation and NOT TESTED text. Description only. | Yes | The description matches the latest run, with no unverified claim. |
-| H3 | After each merge or close, refresh the State table and Next steps here (PR, SHA, CI run). | Yes | This file matches GitHub. |
-| H6 | Q2 decided (toolbar first): align README line 7's component list with `docs/FRAMEWORK_OVERVIEW.md`. | Yes | One-line edit matching the owner's answer. |
-| H7 | On #29 (owner-authorized push to `claude/dazzling-galileo-v4bahp`): fix O2 nit 1 (the "Skip the first tick" comment in `AmbientClockTickerTest.ticksPerVirtualSecond` doesn't match the code; reword it) and nit 3 (the design-notes status line should say CI run #226 passed). Run `spotlessCheck` and `:motion:testDebugUnitTest`; push once. | No (Kotlin, needs Spotless) | Both nits fixed, local checks pass, one green CI run. |
+| H1 | **Done 2026-11-28.** Update PR #26's "Verification status": `f1ed520` cherry-picks only `956f044`; run #222 passed both jobs on `6812d7d`; #216/#217 are superseded history; link the Opus review (B1–B7). Keep the manual-validation and NOT TESTED text. Description only. | Yes | The description matches the latest run, with no unverified claim. |
+| H3 | Refreshed 2026-11-28 (recurring). After each merge or close, refresh the State table and Next steps here (PR, SHA, CI run). | Yes | This file matches GitHub. |
+| H6 | **Done 2026-11-28** (README line 7 leads with the animated toolbar). Q2 decided (toolbar first): align README line 7's component list with `docs/FRAMEWORK_OVERVIEW.md`. | Yes | One-line edit matching the owner's answer. |
+| H7 | **Done 2026-11-28** (`7dcae66`). On #29 (owner-authorized push to `claude/dazzling-galileo-v4bahp`): fix O2 nit 1 (the "Skip the first tick" comment in `AmbientClockTickerTest.ticksPerVirtualSecond` doesn't match the code; reword it) and nit 3 (the design-notes status line should say CI run #226 passed). Run `spotlessCheck` and `:motion:testDebugUnitTest`; push once. | No (Kotlin, needs Spotless) | Both nits fixed, local checks pass, one green CI run. |
 | H8 | Branch inventory: list every remote branch with its PR number and state (open, merged, closed, none) and last commit date, as a table for the owner. **Delete nothing.** | Yes | Table posted to the owner; the owner decides what to delete. |
 | H9 | Mechanical doc check on #28's changed files: relative links resolve, policy section references match the renumbered sections, and task IDs cited exist in the handoff. Report only. | Yes | Table of problems, or "None found". |
 
