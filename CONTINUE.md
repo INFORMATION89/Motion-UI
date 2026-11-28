@@ -1,84 +1,58 @@
 # Continue
 
-This file is the working handoff for the next development session. Keep it aligned with actual branches, pull requests, exact-head CI, and immediate next actions.
+Working handoff for the next session. Keep it in step with the actual branches, pull requests, CI results and next actions. Detailed task prompts live in [docs/CHATGPT_HANDOFF.md](docs/CHATGPT_HANDOFF.md); Haiku-tier tasks live here.
 
 ## Read first
 
-1. [Project rules](docs/RULES.md) and [agent instructions](AGENTS.md).
-2. [CI workflow and performance design](docs/CI.md).
-3. [MOT0.3A execution plan](docs/MOT0.3A_PLAN.md).
-4. [MOT0.3B toolbar contract](docs/MOT0.3B_TOOLBAR_PLAN.md) and [implementation spike](docs/MOT0.3B_TOOLBAR_SPIKE.md).
-5. [Framework overview](docs/FRAMEWORK_OVERVIEW.md) and [platform support](docs/PLATFORM_SUPPORT.md).
-6. [Motion UI theme API](motion-ui/README.md), [Core API](motion/README.md), and [consumer adoption guide](docs/AI_CONSUMER_ADOPTION.md).
+1. [Agent instructions](AGENTS.md), [project rules](docs/RULES.md) and the [AI usage policy](docs/AI_USAGE_POLICY.md).
+2. [MOT0.3B toolbar contract](docs/MOT0.3B_TOOLBAR_PLAN.md) and the [Opus review, 2026-11-28](docs/reviews/OPUS_REVIEW_2026-11-28.md).
+3. [Task queue and session prompts](docs/CHATGPT_HANDOFF.md).
+4. When needed: [framework overview](docs/FRAMEWORK_OVERVIEW.md), [platform support](docs/PLATFORM_SUPPORT.md), [Motion UI API](motion-ui/README.md), [Core API](motion/README.md).
 
 ## Guardrails
 
-- Motion is an independent Android / Jetpack Compose framework.
-- `:motion-ui` is optional and depends on `:motion`; Core must never depend on UI.
-- Applications own their branding, domain, screens, routing, and product behavior. Motion UI provides configurable reusable building blocks only.
-- Material 3 remains the source for standard controls, typography, and accessibility semantics.
-- Do not copy consumer-app or third-party source, assets, resources, or branding into Motion.
-- Do not add Haze until its exact version, license, maintenance, compatibility, and fallback are reviewed.
-- Android API 29+, compile SDK 37, JDK 21. iOS and desktop are not supported by the current artifact.
-- Report device, TalkBack, contrast, RTL, font-scale, and haptic checks as deferred unless actually run.
+- Motion is an independent Android / Jetpack Compose framework. `:motion-ui` is optional and depends on `:motion`; Core never depends on UI.
+- Applications own branding, domain, screens, routing and product behavior. Never name or copy a consuming app, or copy third-party source or assets.
+- Material 3 is the source for standard controls, typography and accessibility semantics. No Haze until it is separately reviewed.
+- Android API 29+, compile SDK 37, JDK 21. iOS and desktop are not supported.
+- Focused checks while iterating; one full CI run on the final PR head. Do not merge without explicit owner approval.
+- Cloud sessions use the personal **Motion-UI** environment (Android SDK preinstalled; Gradle limited to one worker to avoid proxy rate limits).
 
-## Verified project state
+## State (2026-11-28)
 
-- MOT0.1 and MOT0.2 are complete.
-- MOT0.3A introduces the optional `:motion-ui` Android library and the initial configurable theme/token API.
-- PR #13 (MOT0.3A) merged into `main` on 2026-11-27; merge commit `2887d8aec1e06cfe8a747d20b0f1b32ee826e6ea`.
-- PR #25 (MOT0.3B toolbar contract) merged into `main` after PR #13 on 2026-11-27; merge commit `51420fdbb117ddfb8738263cf428b85e197a7719`.
-- The toolbar contract uses stable endpoint IDs for host progress and explicitly separates local drag ownership from consumer-controlled selection.
-- Branch `feat/mot03b-toolbar-prototype` carries the internal Motion Lab spike. It is not a public API.
-- PR #26 is open, targets `main`, and is not a draft. CI #197 is a historical checkpoint, not verification of the current head.
-- The prototype includes stable-ID host progress, variable-width geometry, drag preview/cancel, RTL-aware edge auto-scroll, a retracting contextual-action connector with one semantic button target, two visual profiles, and strict single-tab-stop keyboard navigation with an RTL-aware focus ring.
-- The Lab has 15 pure unit tests covering host-progress validation, geometry interpolation/fallback, drag-target resolution, keyboard navigation/wrap-around, edge-scroll acceleration, and LTR/RTL coordinate conversion. Required CI includes `:motion-lab:testDebugUnitTest`.
-- Motion Lab Compose UI tests now cover tab semantics, host-progress selection invariants, LTR/RTL focus navigation, one contextual-action target, and adjacent-tab interaction with attached/detached action profiles.
-- CI runs fast formatting/unit/release checks and API 35 emulator tests in parallel jobs. Gradle parallel execution, build caching, and strict Configuration Cache compatibility checks are enabled in `gradle.properties`. The emulator job attempts direct read/write access to KVM and logs the reason if it must use the TCG fallback; see [CI design](docs/CI.md).
-- The obsolete, unbuilt prototype directory was removed after provenance/license review; no implementation was copied from it.
+`main` is at `51420fd` (CI run #202 green). MOT0.1, MOT0.2 and MOT0.3A are delivered; the MOT0.3B toolbar contract is accepted, with no public toolbar API yet.
 
-## MOT0.3A acceptance
+| PR | What | State |
+|---|---|---|
+| #28 | Status sync, Opus review, tiered AI routing, attribution rule, Sonnet session plan (docs only) | Draft, CI green on every commit. Waiting on owner review and Q1–Q6. |
+| #29 | S2: Core `AmbientClock` pauses frame requests while inactive and holds the requested cadence | Draft, CI run #226 green. Opus 5.5 review (O2) approved with three optional nits. **Needs owner approval** (user-visible motion change). |
+| #26 | Motion Lab toolbar prototype | Draft, CI run #222 green (both jobs). Review findings B1–B7 open; S5 next. |
 
-- [x] `:motion-ui` builds as an independent Android library.
-- [x] Dependency direction is UI → Core only.
-- [x] Theme defaults and app overrides have focused tests.
-- [x] Spotless and full required CI pass on the cleaned PR #13 head (CI #176).
-- [x] README, API docs, and CI reflect the delivered module.
-- [x] No consumer-specific source, branding, dependency pin, Haze dependency, or unsupported platform work was introduced.
-- [ ] Emulator/TalkBack, contrast, and physical-device checks remain deferred.
-
-## Current MOT0.3B work
-
-- [x] Contract written and synchronized with the current MOT0.3A head.
-- [x] Internal Motion Lab spike added on a separate stacked branch.
-- [x] Pure progress/geometry tests added and included in required CI.
-- [x] Review the complete spike diff for the implemented interaction paths.
-- [x] Historical checkpoint: Spotless, Core tests/build, Motion UI tests/build, Motion Lab tests, and Motion Lab debug build passed on PR #26 head `75b6c9d` (CI #197).
-- [x] Implement the contextual-action connector morph, edge auto-scroll, and strict roving keyboard focus in the Motion Lab spike.
-- [ ] Perform manual emulator/device, TalkBack, focus appearance, contrast, RTL, font-scale, live reduced-motion preference, contextual-action hit-testing, and haptic checks.
-- [x] Add focused Compose UI tests for callback/semantics, LTR/RTL roving focus, physical pointer hit-testing near the contextual action in attached/detached states, and long-press drag completion/cancellation.
-- [ ] Complete [manual validation record](docs/MOT0.3B_MANUAL_VALIDATION.md) on the designated emulator/device; every item remains NOT TESTED until recorded.
-- [ ] Decide the smallest public Motion UI API only after the manual review.
-
-## CI run-volume audit — 2026-11-27
-
-- The latest 100 repository workflow runs contained 44 cancelled, 23 failed, and 33 successful runs. PR #26 accounted for 36 of those runs: 11 cancelled, 21 failed, and 4 successful.
-- These are workflow-run records, not billing data; no claim about charged minutes or monetary cost is made from these counts.
-- CI #216 on commit 53c551f586b04b65ae8d3f85179502df351872c4: the fast-check job passed; the API 35 Compose UI emulator job failed. The full workflow is therefore failed, not green.
-- The run volume exposed a process failure: small, separate commits on a PR branch each triggered another workflow. The policy now requires atomic multi-file batches, one intended full CI run per coherent batch, and owner approval before further full runs beyond one consolidated follow-up. Do not continue per-file writes or incremental pushes.
-- The touch-injection compile fix (`TouchInjectionScope.width` and `height` instead of the nonexistent `size` property, originally `956f044` on `fix/mot03b-pointer-injection-scope`) was applied to PR #26 alone on 2026-11-28 with owner approval for one full CI run. The rest of that fix branch (a Motion Core AmbientClock change and research docs) is deliberately excluded and will be proposed separately.
+Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-scope` is now split: the test fix went to #26, the Core change to #29, and the research docs are task S3.
 
 ## Next steps
 
-1. Verify both CI jobs on the exact latest PR #26 head, including API 35 Compose UI instrumentation.
-2. Run the [manual validation record](docs/MOT0.3B_MANUAL_VALIDATION.md) on the designated emulator/device and record failures with the tested commit SHA.
-3. Fix any automated/manual findings; repeat exact-head CI and the affected manual checks.
-4. Keep PR #26 open until its CI and manual review criteria are satisfied; then review the prototype before designing a public API.
-5. Design the smallest public toolbar API in `:motion-ui` only after the manual interaction/accessibility review.
-6. Deliver reusable cards/surfaces only after the toolbar contract and prototype are established.
+The full plan to 1.0 is in [docs/MOTION_ROADMAP.md](docs/MOTION_ROADMAP.md): the definition of done, the audit findings, milestones M0–M7 with tiers and dependencies, and the owner decisions in order. Work through it one task row per session.
+
+Start now, in parallel:
+1. **Owner:** review and merge #28 and #29 (roadmap M0-1). Q1 and Q6 are still open.
+2. **S5** (Sonnet 5.5, Motion-UI environment): #26 prototype fixes (M0-2). Prompt: "Session B prompt (S5)" in the [handoff](docs/CHATGPT_HANDOFF.md).
+3. **M2-4 and M2-5** (Sonnet 5.5): Core finite-validation gaps and tests for untested public APIs. Neither needs owner approval.
+4. **H tasks** below (Haiku 5.5 or ChatGPT Free).
+
+## Haiku tasks (tier H)
+
+Mechanical and easy to verify. Run in Claude Code with Haiku 5.5. Tasks marked **F-eligible** may go to ChatGPT Free when Haiku is not used ([starter](docs/agent-guides/CHATGPT_FREE_STARTER.md)). Edit only facts you have checked on GitHub.
+
+| ID | Task | F-eligible | Done when |
+|---|---|---|---|
+| H1 | Update PR #26's "Verification status": `f1ed520` cherry-picks only `956f044`; run #222 passed both jobs on `6812d7d`; #216/#217 are superseded history; link the Opus review (B1–B7). Keep the manual-validation and NOT TESTED text. Description only. | Yes | The description matches the latest run, with no unverified claim. |
+| H3 | After each merge or close, refresh the State table and Next steps here (PR, SHA, CI run). | Yes | This file matches GitHub. |
+| H6 | Q2 decided (toolbar first): align README line 7's component list with `docs/FRAMEWORK_OVERVIEW.md`. | Yes | One-line edit matching the owner's answer. |
+| H7 | On #29 (owner-authorized push to `claude/dazzling-galileo-v4bahp`): fix O2 nit 1 (the "Skip the first tick" comment in `AmbientClockTickerTest.ticksPerVirtualSecond` doesn't match the code; reword it) and nit 3 (the design-notes status line should say CI run #226 passed). Run `spotlessCheck` and `:motion:testDebugUnitTest`; push once. | No (Kotlin, needs Spotless) | Both nits fixed, local checks pass, one green CI run. |
+| H8 | Branch inventory: list every remote branch with its PR number and state (open, merged, closed, none) and last commit date, as a table for the owner. **Delete nothing.** | Yes | Table posted to the owner; the owner decides what to delete. |
+| H9 | Mechanical doc check on #28's changed files: relative links resolve, policy section references match the renumbered sections, and task IDs cited exist in the handoff. Report only. | Yes | Table of problems, or "None found". |
 
 ## Deferred validation
 
-Emulator/physical-device behavior, TalkBack traversal, real focus appearance, contrast, RTL rendering, large font scaling, dynamic reduced-motion preference changes, contextual-action hit testing, and physical haptics remain NOT TESTED until actually run and recorded.
-
-Do not merge, release, publish, tag, or update a consumer's pinned Motion commit without explicit owner approval.
+Emulator and physical-device behavior, TalkBack traversal, contrast inspection, real-display cadence and hardware haptics remain NOT TESTED until run on real supported environments. CI emulator tests run with animations disabled.

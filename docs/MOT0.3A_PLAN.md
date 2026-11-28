@@ -1,13 +1,13 @@
 # MOT0.3A — Motion UI theme foundation
 
-**Status:** implementation and repository cleanup under review.  
+**Status:** Delivered; merged into main on 2026-11-27 (PR #13).  
 **Scope:** optional Motion UI Android module, theme/token foundation, CI integration, and consumer-neutral repository documentation.
 
 ## Goal
 
 Establish the optional Motion UI Android library and its app-configurable theme/token contract without adding visual components or changing Motion Core behavior.
 
-## Delivered in the implementation branch
+## Delivered
 
 - Add the optional Motion UI Android library module.
 - Include it in the standalone Gradle build.
@@ -40,13 +40,13 @@ Establish the optional Motion UI Android library and its app-configurable theme/
 
 ## Verification
 
-The original implementation head `6910c608831fa1812debb047d38cc1cb4385efae` passed required CI run #120 (Spotless, Core unit tests/release build, Motion UI unit tests/release build, and Motion Lab debug build). Later documentation and legacy-prototype cleanup commits require a fresh exact-head CI result before acceptance.
+The original implementation head `6910c608831fa1812debb047d38cc1cb4385efae` passed required CI run #120 (Spotless, Core unit tests/release build, Motion UI unit tests/release build, and Motion Lab debug build). The PR was merged into `main` on 2026-11-27 (head 1c87bfd). Required CI run #176 passed on that exact head, and push run #202 passed on `main` at `51420fd`.
 
 - [x] Focused Motion UI token tests and implementation build passed on the original implementation head.
 - [x] Dependency direction was inspected: Motion UI depends on Core; Core does not depend on UI.
-- [ ] Spotless and full required CI pass on the final cleaned PR head.
-- [ ] README, API docs, and CI reflect the final reviewed module.
-- [ ] No consumer-specific source, branding, dependency, or unsupported platform work remains.
+- [x] Spotless and full required CI pass on the final PR head `1c87bfd` (run #176).
+- [x] README, API docs, and CI reflect the delivered module.
+- [x] No consumer-specific source, branding, dependency, or unsupported platform work remains.
 - [ ] Emulator/TalkBack and physical-device checks (not claimed as completed).
 
 ## Next stage

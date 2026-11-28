@@ -2,9 +2,9 @@
 
 ## Status
 
-Behavioral contract retained as the reference for the internal Motion Lab spike. MOT0.3A and this toolbar contract have been merged into `main`; PR #26 contains the prototype-only implementation for review. The contract does not authorize consumer migration or third-party code reuse.
+Contract accepted and merged into `main` on 2026-11-27 (PR #25). This document defines the reusable component contract and a staged implementation. It still does not commit the project to a final public Kotlin API; an internal Motion Lab prototype is in draft PR #26 and is under review. It does not copy third-party implementation code, or migrate a consumer application.
 
-The prototype remains internal to Motion Lab until automated coverage, manual accessibility/device validation, and API review are complete.
+**Prerequisite:** MOT0.3A theme/token foundation (the optional Motion UI module) is met (merged into `main` on 2026-11-27, PR #13).
 
 ## 1. Goal
 
@@ -234,13 +234,11 @@ Keep tests focused on distinct failure modes; avoid duplicating exhaustive permu
 ### Compose UI tests
 
 - Tab click emits the correct callback and does not mutate controlled selection.
-- Selected semantics update from consumer state; host progress does not emit selection callbacks.
+- Selected semantics update from consumer state.
 - Collapsed labels remain accessible.
-- Contextual action invokes its callback as one semantic target and does not steal adjacent-tab pointer input while attached or detached.
-- Keyboard/focus activation, one focus stop, LTR/RTL movement, and wrapping.
-- Long-press drag requests a destination on release; cancellation requests nothing.
-- Exact pointer hit-testing for the adjacent tab and contextual action.
-
+- Contextual action invokes its callback and does not steal adjacent-tab taps while tucked away.
+- Keyboard/focus activation and disabled-state behavior.
+- At least one long-press-drag success and cancellation path.
 
 ### Visual/manual checks
 
@@ -250,7 +248,7 @@ Keep tests focused on distinct failure modes; avoid duplicating exhaustive permu
 - Reduced-motion mode.
 - TalkBack and physical touch target checks on an emulator/device.
 
-Do not claim TalkBack, device, contrast, or haptic validation unless it has actually been run and recorded. Use [the manual validation record](MOT0.3B_MANUAL_VALIDATION.md) to record the test environment, exact commit, results, and follow-up issues.
+Do not claim TalkBack, device, contrast, or haptic validation unless it has actually been run and recorded.
 
 ## 9. Delivery sequence
 
