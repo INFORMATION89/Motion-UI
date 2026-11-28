@@ -174,11 +174,17 @@ FINISH with a handoff: branch, SHA, CI run, changes per item, checks run/not run
 
 </details>
 
-## Owner questions (don't guess)
+## Owner decisions
+
+Decided by the owner on 2026-11-28:
+
+- **Q2: toolbar first.** Motion UI leads with the animated toolbar; README line 7 gets aligned (H6, now unblocked).
+- **Q3: emulator job required for code PRs; docs-only PRs skip it.** S6 is unblocked; check branch protection first.
+- **Q4: the drag indicator follows the finger continuously**, with a lifted/pressed look, as the accepted contract says. No contract change. Part of O3 (with B1/B3).
+- **Q5: programmatic far jumps travel directly** to the target; intermediate labels stay collapsed. Part of O3.
+
+Still open:
+
 
 1. **Q1.** Should `docs/OPUS_REVIEW_BRIEF.md`, which names other repositories, live in this consumer-neutral repository, or somewhere shared or private?
-2. **Q2.** Is Motion UI's lead component story "toolbar first" (`FRAMEWORK_OVERVIEW.md`) or "page frames, cards, sheets…" (README)?
-3. **Q3.** Approve the API 35 emulator job as a required check, and a docs-only path filter for it?
-4. **Q4** (B2). Must the dragged selection surface follow the pointer continuously, with lift and press, or is the tab-to-tab snapping acceptable? (If acceptable, the contract text needs amending.)
-5. **Q5** (B6). On a programmatic jump to a far tab, should the indicator sweep through the intermediate tabs or travel directly?
 6. **Q6.** Should a PR-hygiene CI check be added (required template sections, no `[skip ci]` on code commits)? A CI change needs owner approval.

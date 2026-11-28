@@ -32,7 +32,7 @@ Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-sco
 
 ## Next steps
 
-1. **Owner:** review #28 and #29; answer Q1–Q6 in the [handoff](docs/CHATGPT_HANDOFF.md) (Q3 and Q4 unblock the most work).
+1. **Owner:** review #28 and #29; answer the remaining Q1 and Q6. Q2–Q5 were decided on 2026-11-28 (see "Owner decisions" in the [handoff](docs/CHATGPT_HANDOFF.md)): toolbar first, emulator required with docs-only skip, drag follows the finger, far jumps travel directly.
 2. **S5** (Sonnet 5.5, Motion-UI environment): #26 prototype fixes. Prompt: "Session B prompt (S5)" in the handoff.
 3. **S3** (ChatGPT Free, owner-assigned): research docs in their own docs-only PR.
 4. **O3** (Opus 5.5): smallest public toolbar API, after S5, Q4, and B1–B3 design.
@@ -46,7 +46,7 @@ Mechanical and easy to verify. Run in Claude Code with Haiku 5.5. Tasks marked *
 |---|---|---|---|
 | H1 | Update PR #26's "Verification status": `f1ed520` cherry-picks only `956f044`; run #222 passed both jobs on `6812d7d`; #216/#217 are superseded history; link the Opus review (B1–B7). Keep the manual-validation and NOT TESTED text. Description only. | Yes | The description matches the latest run, with no unverified claim. |
 | H3 | After each merge or close, refresh the State table and Next steps here (PR, SHA, CI run). | Yes | This file matches GitHub. |
-| H6 | After Q2 is answered, align README line 7's component list with `docs/FRAMEWORK_OVERVIEW.md`. | Yes | One-line edit matching the owner's answer. |
+| H6 | Q2 decided (toolbar first): align README line 7's component list with `docs/FRAMEWORK_OVERVIEW.md`. | Yes | One-line edit matching the owner's answer. |
 | H7 | On #29 (owner-authorized push to `claude/dazzling-galileo-v4bahp`): fix O2 nit 1 (the "Skip the first tick" comment in `AmbientClockTickerTest.ticksPerVirtualSecond` doesn't match the code; reword it) and nit 3 (the design-notes status line should say CI run #226 passed). Run `spotlessCheck` and `:motion:testDebugUnitTest`; push once. | No (Kotlin, needs Spotless) | Both nits fixed, local checks pass, one green CI run. |
 | H8 | Branch inventory: list every remote branch with its PR number and state (open, merged, closed, none) and last commit date, as a table for the owner. **Delete nothing.** | Yes | Table posted to the owner; the owner decides what to delete. |
 | H9 | Mechanical doc check on #28's changed files: relative links resolve, policy section references match the renumbered sections, and task IDs cited exist in the handoff. Report only. | Yes | Table of problems, or "None found". |
