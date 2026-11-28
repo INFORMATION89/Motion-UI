@@ -16,7 +16,6 @@
 
 package io.github.information89.motion.lab
 
-import android.animation.ValueAnimator
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -96,6 +95,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.IntOffset
@@ -104,6 +104,7 @@ import androidx.compose.ui.unit.dp
 import io.github.information89.motion.Haptic
 import io.github.information89.motion.Motion
 import io.github.information89.motion.haptics
+import io.github.information89.motion.rememberReducedMotion
 import io.github.information89.motion.ui.MotionUiThemeTokens
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -141,14 +142,15 @@ private val toolbarDestinations = listOf(
 internal fun ToolbarPrototype() {
     val pagerState = rememberPagerState(pageCount = { toolbarDestinations.size })
     val scope = rememberCoroutineScope()
-    val reducedMotion = !ValueAnimator.areAnimatorsEnabled()
+    val reducedMotion = rememberReducedMotion()
     var profile by remember { mutableStateOf(ToolbarVisualProfile.EXPRESSIVE) }
     var showContextAction by remember { mutableStateOf(true) }
     var contextActionDetached by remember { mutableStateOf(false) }
     var hapticsEnabled by remember { mutableStateOf(false) }
     var actionActive by remember { mutableStateOf(false) }
 
-    val selectedTabId = toolbarDestinations.getOrNull(pagerState.currentPage)?.id
+    // The committed selection is the settled page; progress endpoints still follow currentPage.
+    val selectedTabId = toolbarDestinations.getOrNull(pagerState.settledPage)?.id
         ?: toolbarDestinations.first().id
     val hostProgress = toolbarProgressForPager(
         destinations = toolbarDestinations,
@@ -208,6 +210,7 @@ internal fun ToolbarPrototype() {
             contextActionDetached = contextActionDetached,
             actionActive = actionActive,
             hapticsEnabled = hapticsEnabled,
+            reducedMotion = reducedMotion,
             onActionClick = { actionActive = !actionActive },
             onSelectionRequest = ::requestSelection,
             onSelectionInteractionStarted = {
@@ -278,6 +281,7 @@ internal fun ToolbarPrototypeBar(
     contextActionDetached: Boolean,
     actionActive: Boolean,
     hapticsEnabled: Boolean,
+    reducedMotion: Boolean,
     onActionClick: () -> Unit,
     onSelectionRequest: (String) -> Unit,
     onSelectionInteractionStarted: () -> Unit,
@@ -305,7 +309,6 @@ internal fun ToolbarPrototypeBar(
         )
     }
     val feedback = haptics()
-    val reducedMotion = !ValueAnimator.areAnimatorsEnabled()
     val detachmentTarget = if (contextActionDetached) 1f else 0f
     val detachmentProgress by animateFloatAsState(
         targetValue = detachmentTarget,
@@ -500,12 +503,15 @@ internal fun ToolbarPrototypeBar(
                             Row(
                                 modifier = Modifier
                                     .onGloballyPositioned { coordinates ->
-                                        val next = ToolbarTabBounds(
-                                            leftPx = coordinates.positionInParent().x,
-                                            widthPx = coordinates.size.width.toFloat()
-                                        )
-                                        if (tabBounds[destination.id] != next) {
-                                            tabBounds[destination.id] = next
+                                        // A transient zero-size layout is not a measurement; keep the last bounds.
+                                        if (coordinates.size.width > 0) {
+                                            val next = ToolbarTabBounds(
+                                                leftPx = coordinates.positionInParent().x,
+                                                widthPx = coordinates.size.width.toFloat()
+                                            )
+                                            if (tabBounds[destination.id] != next) {
+                                                tabBounds[destination.id] = next
+                                            }
                                         }
                                     }
                                     .clip(RoundedCornerShape(24.dp))
@@ -712,7 +718,11 @@ internal fun ToolbarPrototypeBar(
                 Spacer(Modifier.width(connectorGap))
                 Button(
                     onClick = onActionClick,
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier
+                        .height(48.dp)
+                        .semantics {
+                            stateDescription = if (actionActive) "Pinned" else "Not pinned"
+                        },
                     shape = RoundedCornerShape(
                         topStart = actionLeadingCorner,
                         topEnd = 24.dp,

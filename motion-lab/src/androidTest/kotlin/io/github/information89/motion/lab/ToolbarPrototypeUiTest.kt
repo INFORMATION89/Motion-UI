@@ -19,6 +19,7 @@ package io.github.information89.motion.lab
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.key.Key
@@ -28,6 +29,7 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.assertIsNotFocused
@@ -357,6 +359,29 @@ class ToolbarPrototypeUiTest {
         assertEquals(1, actionClicks.get())
     }
 
+    @Test
+    fun contextActionExposesToggleStateAndKeepsOneTarget() {
+        val active = mutableStateOf(false)
+        setToolbar(
+            actionActive = { active.value },
+            onActionClick = { active.value = !active.value }
+        )
+
+        composeRule.waitForIdle()
+        val button = SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button)
+        composeRule.onNode(button).assert(
+            SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Not pinned")
+        )
+
+        composeRule.onNode(button).performClick()
+        composeRule.waitForIdle()
+
+        composeRule.onNode(button).assert(
+            SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Pinned")
+        )
+        composeRule.onAllNodes(button).assertCountEquals(1)
+    }
+
     private fun assertContextActionHasOneTarget(detached: Boolean) {
         val clicks = AtomicInteger(0)
         setToolbar(
@@ -403,6 +428,8 @@ class ToolbarPrototypeUiTest {
         hostProgress: ToolbarHostProgress? = null,
         showContextAction: Boolean = true,
         contextActionDetached: Boolean = false,
+        actionActive: () -> Boolean = { false },
+        reducedMotion: Boolean = true,
         onActionClick: () -> Unit = {},
         onSelectionRequest: (String) -> Unit = {},
         onSelectionInteractionStarted: () -> Unit = {},
@@ -417,7 +444,8 @@ class ToolbarPrototypeUiTest {
                             profile = profile,
                             showContextAction = showContextAction,
                             contextActionDetached = contextActionDetached,
-                            actionActive = false,
+                            actionActive = actionActive(),
+                            reducedMotion = reducedMotion,
                             hapticsEnabled = false,
                             onActionClick = onActionClick,
                             onSelectionRequest = onSelectionRequest,

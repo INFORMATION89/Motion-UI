@@ -247,4 +247,39 @@ class ToolbarGeometryTest {
 
         (failure is IllegalArgumentException) shouldBe true
     }
+
+    // Disabled tabs: callers pass only enabled IDs; excluded IDs must never come back out.
+    private val enabledIds = listOf("overview", "discover", "settings")
+    private val allBounds = mapOf(
+        "overview" to ToolbarTabBounds(0f, 80f),
+        "saved" to ToolbarTabBounds(80f, 120f),
+        "discover" to ToolbarTabBounds(200f, 100f),
+        "settings" to ToolbarTabBounds(300f, 80f)
+    )
+
+    @Test
+    fun `nearest tab never returns an excluded ID even over its bounds`() {
+        // 140f is the center of the excluded "saved" tab; the nearest enabled center is overview (40f)
+        // or discover (250f).
+        nearestToolbarTabId(enabledIds, allBounds, 140f) shouldBe "overview"
+        nearestToolbarTabId(enabledIds, allBounds, 170f) shouldBe "discover"
+    }
+
+    @Test
+    fun `adjacent tab skips excluded IDs and rejects an excluded current tab`() {
+        toolbarAdjacentTabId(enabledIds, "overview", forward = true) shouldBe "discover"
+        toolbarAdjacentTabId(enabledIds, "discover", forward = false) shouldBe "overview"
+        toolbarAdjacentTabId(enabledIds, "overview", forward = false) shouldBe "settings"
+        toolbarAdjacentTabId(enabledIds, "saved", forward = true) shouldBe null
+        toolbarAdjacentTabId(enabledIds, "saved", forward = false) shouldBe null
+    }
+
+    @Test
+    fun `progress with an excluded endpoint falls back to the committed selection`() {
+        val progress = ToolbarHostProgress("overview", "saved", 0.5f)
+
+        toolbarSelectionFractions(enabledIds, selectedTabId = "overview", hostProgress = progress) shouldBe
+            mapOf("overview" to 1f, "discover" to 0f, "settings" to 0f)
+        toolbarIndicatorBounds(enabledIds, allBounds, "overview", progress) shouldBe allBounds.getValue("overview")
+    }
 }
