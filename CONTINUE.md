@@ -20,13 +20,14 @@ Working handoff for the next session. Keep it in step with the actual branches, 
 
 ## State (2026-11-28)
 
-`main` is at `d15025f` (CI run #232 green). MOT0.1, MOT0.2 and MOT0.3A are delivered; the MOT0.3B toolbar contract is accepted, with no public toolbar API yet. #28 and #29 are merged; **#26 is the only open PR**.
+`main` is at `109b4e3`. MOT0.1, MOT0.2 and MOT0.3A are delivered; the MOT0.3B toolbar contract is accepted (#25) and its prototype is merged in Motion Lab (#26); there is no public toolbar API yet (roadmap M1). Branch protection requires the status check `build`. **There are no open PRs except the one carrying S6/Q6 (CI docs-only fast path and PR hygiene).**
 
 | PR | What | State |
 |---|---|---|
-| #29 | S2: Core `AmbientClock` pauses frame requests while inactive and holds the requested cadence | Merged 2026-11-28, merge commit `88afabb`. Owner-approved Core behavior change. H7 fixed O2 nits 1 and 3 (`7dcae66`); nit 2 (a test that frames are skipped) is still open and optional. |
-| #28 | Status sync, Opus review, tiered AI routing, attribution rule, Sonnet session plan, roadmap (docs only) | Merged 2026-11-28, merge commit `d15025f`; CI run #232 green on `main`. Q2–Q5 are decided; Q1 and Q6 are open. |
-| #26 | Motion Lab toolbar prototype | **Open (draft).** Head `a8d616d`, CI run #233 green (both jobs). S5 done: B4 and B6 fixed; `main` merged in, conflicts resolved. B1–B3 are still open. |
+| #26 | Motion Lab toolbar prototype | Merged 2026-11-28, merge commit `109b4e3`. The fast job was renamed back to `build` in `3aa0dc0` because branch protection requires that name. B1-B3 remain for the public API design (O3). |
+| #30 | H3, H6, H9 doc tasks | Merged, merge commit `42ff271`. |
+| #29 | S2: Core `AmbientClock` pauses frame requests while inactive and holds the requested cadence | Merged 2026-11-28, merge commit `88afabb`. Nit 2 (a test that frames are skipped) is still open and optional. |
+| #28 | Status sync, Opus review, tiered AI routing, roadmap (docs only) | Merged 2026-11-28, merge commit `d15025f`. |
 
 Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-scope` is now split: the test fix went to #26, the Core change to #29 (merged), and the research docs are task S3.
 
@@ -34,13 +35,11 @@ Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-sco
 
 The full plan to 1.0 is in [docs/MOTION_ROADMAP.md](docs/MOTION_ROADMAP.md): the definition of done, the audit findings, milestones M0–M7 with tiers and dependencies, and the owner decisions in order. Work through it one task row per session.
 
-Done: M0-1 (#28 and #29 merged) and M0-2 (S5 on #26). Next, in parallel:
-1. **Owner:** answer Q1 and Q6 in the [handoff](docs/CHATGPT_HANDOFF.md); review #26 (roadmap M0-5 after M0-3 and M0-4).
-2. **M0-3 / S6** (Sonnet 5.5): emulator job required for code PRs, docs-only skip (Q3 decided).
-3. **M0-4 / S7** (Sonnet 5.5): the #26 doc conflicts with `main` were resolved by merging `main` (taking `main`'s `CONTINUE.md` and plan status); S7 only needs to confirm nothing else overlaps.
-4. **M2-4 and M2-5** (Sonnet 5.5): Core finite-validation gaps and tests for untested public APIs. Neither needs owner approval.
-5. **S3** (ChatGPT Free, owner-assigned): research docs in their own docs-only PR.
-6. **O3** (Opus 5.5): smallest public toolbar API, after Q4 and the B1–B3 design.
+Done: M0-1 through M0-5. S6 (docs-only fast path) and Q6 (PR hygiene) are implemented in the open CI PR; see [docs/CI.md](docs/CI.md). Q1 and Q6 are decided. Next, in parallel:
+1. **Owner:** review the CI PR; decide whether `pr-hygiene` becomes a required check (a branch-protection setting).
+2. **M1-1 / O3** (Opus 5.5): smallest public toolbar API, once the owner gives the go-ahead.
+3. **M2-4 and M2-5** (Sonnet 5.5): Core finite-validation gaps and tests for untested public APIs. Neither needs owner approval.
+4. **S3** (ChatGPT Free, owner-assigned): research docs in their own docs-only PR.
 
 ## Haiku tasks (tier H)
 

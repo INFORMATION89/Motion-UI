@@ -34,7 +34,7 @@ Haiku-tier tasks are kept in [CONTINUE.md](../CONTINUE.md#haiku-tasks-tier-h), w
 | S8 | In #29, add a test that frames are actually skipped while running (about 2 frame requests per tick at 30 fps on 120 Hz). O2 nit 2; optional. | Optional; same branch as #29. |
 | S3 | Put the five research/audit docs from the fix branch in a separate docs-only PR: `MOTION_ARCHITECTURE_REVIEW.md`, `MOTION_RUNTIME_AND_TEST_AUDIT.md`, `REFERENCE_MATERIAL3_EXPRESSIVE.md`, plus their `CONTINUE.md`/spike-doc edits. Scrub any consumer names. | Docs only, no code CI needed. |
 | S5 | In PR #26, apply B4: commit selection from `settledPage`. Also apply the small B6 fixes: toggleable semantics on the context action, reduced motion via Core's `rememberReducedMotion()` passed in as a parameter, a disabled tab in the geometry tests, and no throwing on zero-size bounds. | Keep within the Lab module. No public API. |
-| S6 | After owner approval (Q3), add a path filter so `**/*.md`-only changes skip the emulator job. Check branch protection first. | Finding B5. |
+| S6 | **Done 2026-11-28.** Docs-only changes skip the emulator job via a `changes` job and job-level conditions (not a path filter); `build` always reports. See `docs/CI.md`. | Finding B5. |
 | S7 | After S1 and S5, resolve doc conflicts between PR #26 and the refreshed `main` docs. Keep only toolbar-specific doc edits in #26. | Finding B7. |
 
 ## Tier O tasks (Opus): do not start without Opus or explicit owner go-ahead
@@ -179,12 +179,11 @@ FINISH with a handoff: branch, SHA, CI run, changes per item, checks run/not run
 Decided by the owner on 2026-11-28:
 
 - **Q2: toolbar first.** Motion UI leads with the animated toolbar; README line 7 gets aligned (H6, now unblocked).
-- **Q3: emulator job required for code PRs; docs-only PRs skip it.** S6 is unblocked; check branch protection first.
+- **Q3: emulator job required for code PRs; docs-only PRs skip it.** Implemented as S6 (branch protection checked: `build` is required and always reports).
 - **Q4: the drag indicator follows the finger continuously**, with a lifted/pressed look, as the accepted contract says. No contract change. Part of O3 (with B1/B3).
 - **Q5: programmatic far jumps travel directly** to the target; intermediate labels stay collapsed. Part of O3.
 
-Still open:
+- **Q1: leave the brief on the closed #15 branch.** `docs/OPUS_REVIEW_BRIEF.md` (which names other repositories) does not enter this consumer-neutral repository.
+- **Q6: yes, add a PR-hygiene check** (required template sections, no `[skip ci]` on code commits). Added as `.github/workflows/pr-hygiene.yml`; making it a required check is a branch-protection setting the owner controls.
 
-
-1. **Q1.** Should `docs/OPUS_REVIEW_BRIEF.md`, which names other repositories, live in this consumer-neutral repository, or somewhere shared or private?
-6. **Q6.** Should a PR-hygiene CI check be added (required template sections, no `[skip ci]` on code commits)? A CI change needs owner approval.
+No owner decisions are currently open.

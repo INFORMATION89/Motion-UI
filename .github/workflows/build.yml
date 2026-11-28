@@ -10,25 +10,77 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    # Decides whether the change touches anything other than documentation.
+    name: changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      code: ${{ steps.detect.outputs.code }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Detect code changes
+        id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # Documentation: *.md, docs/**, LICENSE*. Everything else (including .github/**) is code.
+          # Pushes to main always count as code.
+          code=true
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            files=$(git diff --name-only "$BASE_SHA...$HEAD_SHA")
+            echo "Changed files:"
+            echo "$files"
+            code=false
+            if [[ -z "$files" ]]; then
+              code=true
+            fi
+            while IFS= read -r f; do
+              [[ -z "$f" ]] && continue
+              case "$f" in
+                *.md|docs/*|LICENSE*) ;;
+                *) code=true ;;
+              esac
+            done <<< "$files"
+          fi
+          echo "code=$code"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+
   verify:
     # Keep this name: branch protection requires a status check called "build".
+    # The job always runs and reports; for docs-only changes its steps are skipped.
     name: build
+    needs: changes
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Checkout
+        if: needs.changes.outputs.code == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up JDK
+        if: needs.changes.outputs.code == 'true'
         uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
         with:
           java-version-file: .github/.java-version
           distribution: temurin
 
       - name: Set up Gradle
+        if: needs.changes.outputs.code == 'true'
         uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
 
+      - name: Documentation-only change
+        if: needs.changes.outputs.code != 'true'
+        run: echo "Documentation-only change; Gradle verification skipped."
+
       - name: Verify formatting, unit tests, and release builds
+        if: needs.changes.outputs.code == 'true'
         run: |
           ./gradlew \
             spotlessCheck \
@@ -40,6 +92,9 @@ jobs:
 
   instrumentation:
     name: Compose UI tests · API 35 emulator
+    # Skipped (which still satisfies a required check) for documentation-only changes.
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
