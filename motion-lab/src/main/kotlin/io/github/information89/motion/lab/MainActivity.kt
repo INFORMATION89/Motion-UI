@@ -120,6 +120,11 @@ private enum class LabPage(val title: String, val description: String, val secti
         "Explore progressive blur and fade at the edges of a horizontal list.",
         LabSection.COMPONENTS
     ),
+    TOOLBAR(
+        "Animated toolbar",
+        "Explore host-driven selection, variable-width tabs, drag switching, and two visual profiles.",
+        LabSection.INTERACTIONS
+    ),
     SPRINGS(
         "Springs and release",
         "Compare Motion spring tokens and try gesture-to-spring release.",
@@ -219,6 +224,7 @@ private fun MotionLabApp() {
                 Text(page!!.description, style = MaterialTheme.typography.bodyLarge)
                 SlowMotionControl(slowMotion) { slowMotion = it }
                 when (page) {
+                    LabPage.TOOLBAR -> ToolbarPrototype()
                     LabPage.SPRINGS -> SpringsDemo()
                     LabPage.MORPH -> MorphDemo()
                     LabPage.PAGES -> PageDemo()

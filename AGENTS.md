@@ -64,14 +64,18 @@ The following remain outside the completed MOT0.2 scope and require separate pla
 
 ## Cost-aware verification
 
-1. **Plan before testing.** For each task, identify the changed modules, acceptance criteria, smallest relevant checks, expensive checks (full CI, emulators, device runs, and live integrations), and the evidence that would count as a pass.
-2. **Use focused checks during iteration.** Run the affected unit tests, lint target, or build task while implementing. Do not run the entire CI suite after every small change. For documentation-only changes, skip local code tests that cannot be affected.
-3. **Batch related changes.** Complete a coherent set of implementation and documentation changes before pushing or requesting the full pull-request CI workflow. Run the full required workflow once when the batch is ready.
-4. **Reuse passing results.** Record the commit SHA and environment associated with each result. Do not repeat a check when neither relevant code nor its dependencies/configuration changed. If one job fails, inspect its logs and rerun only that job where possible; do not rerun successful jobs without a technical reason.
-5. **Limit infrastructure retries.** After an infrastructure/environment failure, inspect the evidence and allow at most one retry with a materially different setup. If the same requirement fails again, stop and mark it `BLOCKED`; report the evidence and the host/tool access needed. Do not repeatedly retry an unchanged setup.
-6. **Ask before expanding verification.** Before substantially widening the test matrix, adding a new expensive test layer, or spending another full CI run after a failed run, explain why it is needed and obtain the owner's approval when it exceeds the agreed task plan. A narrowly scoped rerun of only the failed job is preferred when supported.
-7. **Keep device checks separate.** CI is the routine acceptance gate when device access is unavailable. Real-device, live-source, and manual interaction checks remain `NOT TESTED` or `DEFERRED` until explicitly required and available. A passing CI workflow must never be described as device or live-integration validation.
-8. **Report exact evidence.** State the exact commands or workflow run, tested commit SHA, pass/fail results, checks not run, and blockers. Never claim an unrun or uninspected check passed.
+1. **Plan before testing.** For each task, identify the changed modules, acceptance criteria, smallest relevant checks, expensive checks, and evidence that counts as a pass.
+2. **Use focused local checks.** Run affected tests, formatting, lint, or builds during implementation. Do not run full CI after every small edit. For documentation-only changes, skip irrelevant local code tests.
+3. **Batch changes and commits.** Complete a coherent set of source, test, configuration, and documentation changes before pushing. Do not commit or push per file or per micro-fix. Publish one atomic commit for the batch.
+4. **Publish multi-file changes atomically.** Do not call the GitHub Contents API once per file on a CI-enabled branch: each write creates a commit and can trigger another workflow. Use one local Git commit or one Git Data API blobs/tree/commit/ref sequence.
+5. **Budget complete CI runs.** Default to one full required workflow for a coherent batch. A second is allowed only after the first exposes an actionable failure and all known fixes are consolidated. Obtain owner approval before further full runs unless already agreed in the task plan.
+6. **Do not use CI as an interactive debugger.** Let an active run finish before pushing more work unless an urgent fix is necessary; then consolidate the fix. Inspect failure logs and prefer rerunning only the failed job on the same SHA where supported. Never create no-op commits to trigger CI.
+7. **Reuse passing results.** Record SHA and environment. Do not repeat checks if relevant code/dependencies/configuration are unchanged; do not rerun successful jobs without a technical reason.
+8. **Limit infrastructure retries.** After an infrastructure/environment failure, allow at most one retry with a materially different setup. If it fails again, stop and mark it BLOCKED.
+9. **Protect required checks.** Do not add path filters, skip-CI markers, or conditional skips until required-check and branch-protection consequences are verified.
+10. **Ask before expanding verification.** Obtain owner approval before substantially widening the test matrix or exceeding the CI budget.
+11. **Keep device checks separate.** Real-device, live-source, and manual checks remain NOT TESTED or DEFERRED until performed.
+12. **Report exact evidence.** State workflow run, tested commit SHA, pass/fail results, checks not run, and blockers. Never claim an unrun or uninspected check passed.
 
 ## Git and pull request rules
 

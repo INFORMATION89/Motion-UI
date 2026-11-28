@@ -137,3 +137,8 @@ Fix contradictions in the authoritative document instead of maintaining duplicat
 10. Do not merge, release, publish, tag, or update a consuming app's pinned Motion commit unless the owner explicitly authorizes that action.
 11. Never commit secrets, credentials, private keys, local machine configuration, generated build output, or unrelated files.
 12. Keep commits focused and PR descriptions evidence-based. Report the exact tested SHA and never claim unrun checks passed.
+13. Treat each coherent implementation batch as one atomic commit and one intended full CI run. Do not commit or push every changed file or micro-fix separately.
+14. Never use separate GitHub Contents API writes for files in the same multi-file batch on a CI-enabled branch; each write creates a new commit and can trigger another workflow. Use one local Git commit or one Git Data API tree/commit/ref update.
+15. Default to one full CI run per coherent batch. A second full run is permitted only after the first reveals an actionable failure and all known fixes are consolidated. Further full runs require owner approval unless already included in the agreed plan.
+16. Do not push incremental changes while a useful run is active, create no-op commits to trigger CI, or use remote CI as an interactive debugger. Inspect failed job logs and prefer a failed-job rerun on the same SHA when supported.
+17. Cancellation concurrency is a safety mechanism, not a run-volume control. Do not introduce path filters or skip-CI markers until required-check/branch-protection effects are verified; never reduce required coverage to save runs.

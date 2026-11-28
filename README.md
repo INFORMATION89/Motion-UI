@@ -98,13 +98,14 @@ On Windows, use `gradlew.bat` instead of `./gradlew`.
 - [MOT0.2 standalone Motion Lab plan](docs/MOT0.2_PLAN.md)
 - [MOT0.3A Motion UI foundation](docs/MOT0.3A_PLAN.md)
 - [MOT0.3B animated toolbar plan](docs/MOT0.3B_TOOLBAR_PLAN.md)
+- [MOT0.3B toolbar implementation spike](docs/MOT0.3B_TOOLBAR_SPIKE.md)
 - [Legacy prototype disposition](docs/LEGACY_PROTOTYPE_DISPOSITION.md)
 - [Motion UI theme and token API](motion-ui/README.md)
 - [Motion Lab app and build guide](motion-lab/README.md)
 
 ## Project status
 
-The `:motion` Android library, optional `:motion-ui` Android library, and standalone `:motion-lab` sample app are Gradle modules. Motion Lab currently includes a generic gallery organized into Components and Interactions tabs, automatic system light/dark appearance, and spring/release, morph, page, dial, edge-blur, and semantic haptics demonstrations. Morph and page movement have opt-in comparisons driven by shared input. The haptics page exposes the existing semantic tokens and a temporary intensity control. The latest implementation CI result must be checked against the exact PR head; emulator/physical-device behavior, TalkBack, contrast, and real vibration remain unverified. The `:motion-ui` module currently provides an app-configurable Material 3 theme and semantic shape, spacing, and surface-material tokens. The obsolete prototype source tree has been removed; Motion Lab is the maintained standalone sample.
+The `:motion` Android library, optional `:motion-ui` Android library, and standalone `:motion-lab` sample app are Gradle modules. Motion Lab currently includes a generic gallery organized into Components and Interactions tabs, automatic system light/dark appearance, and spring/release, morph, page, dial, edge-blur, and semantic haptics demonstrations. Morph and page movement have opt-in comparisons driven by shared input. The haptics page exposes the existing semantic tokens and a temporary intensity control. The latest implementation CI result must be checked against the exact PR head; emulator/physical-device behavior, TalkBack, contrast, and real vibration remain unverified. The `:motion-ui` module currently provides an app-configurable Material 3 theme and semantic shape, spacing, and surface-material tokens. The MOT0.3B toolbar contract is being exercised in an internal Motion Lab spike; no public toolbar API has been stabilized. The obsolete prototype source tree has been removed; Motion Lab is the maintained standalone sample.
 
 
 ## License

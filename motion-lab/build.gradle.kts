@@ -18,6 +18,7 @@ android {
         targetSdk = libs.versions.sdk.compile.get().toInt()
         versionCode = 1
         versionName = "0.1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -28,6 +29,10 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile>().configureEach {
@@ -56,4 +61,14 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.material3)
     implementation(libs.compose.ui)
+
+    testImplementation(libs.bundles.test)
+    testRuntimeOnly(libs.junit.platform)
+
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.runner)
+    debugImplementation(platform(libs.compose.bom))
+    debugImplementation(libs.compose.ui.test.manifest)
 }

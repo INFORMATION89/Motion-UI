@@ -9,7 +9,7 @@ This document preserves the repository-extraction decisions from 2026-11-21. The
 - The current target is Android 10 / API 29+, compile SDK 37, Android Build Tools 37, and JDK 21.
 - `:motion-lab` is a built Gradle application module and is included in CI through `:motion-lab:assembleDebug`.
 - The former `lab/` directory was an unbuilt prototype, not a Gradle module. It has been removed because its sources were application-coupled and carried LGPL-3.0 notices; no implementation was copied into the maintained modules.
-- CI runs Spotless, Core unit tests/release build, Motion UI unit tests/release build, and the Motion Lab debug build.
+- CI runs Spotless, Core unit tests/release build, Motion UI unit tests/release build, Motion Lab unit tests, and the Motion Lab debug build.
 - Consumer applications may integrate Motion through a Git submodule and Gradle composite build, pinned to an exact tested commit. Motion is not currently published to Maven.
 - Desktop (Windows/macOS/Linux) and iOS support are future design work, not supported targets.
 - Physical-device validation remains NOT TESTED / DEFERRED while suitable hardware is unavailable. Passing CI does not establish device behavior.
@@ -21,6 +21,14 @@ This document preserves the repository-extraction decisions from 2026-11-21. The
 - Neutral defaults derive surface colors from the caller's Material 3 color scheme. Apps can inject their own Material 3 theme values and replace Motion UI tokens.
 - No Haze dependency, glass rendering implementation, visual components, consumer code, or dependency-pin changes are included in the foundation.
 - Merged into `main` on 2026-11-27 (PR #13); required CI passed on the final PR head `1c87bfd` (run #176) and on `main` at `51420fd` (run #202).
+
+## MOT0.3B status — contract and implementation spike
+
+- The animated toolbar contract is documented in `docs/MOT0.3B_TOOLBAR_PLAN.md` and remains a proposal until reviewed against the prototype.
+- The current spike is intentionally hosted in Motion Lab, not yet exposed as a public `:motion-ui` API.
+- The spike exercises stable-ID host progress, variable-width geometry, optional long-press drag with RTL-aware edge auto-scroll, a connected/retractable contextual-action morph with one semantic button target, two configurable visual profiles, and strict single-tab-stop keyboard focus with RTL-aware directional navigation.
+- The sample-only implementation and its 15 pure geometry/interaction unit tests passed required CI run #197 on exact head `75b6c9dacfb5079fc12dbcc36e0f4789f8d97b40` (Spotless, Core tests/release build, Motion UI tests/release build, Motion Lab unit tests/debug build).
+- Public API design follows only after manual interaction/accessibility review and focused Compose UI tests. Emulator, TalkBack traversal, real focus appearance, contrast, font-scale, live reduced-motion preference changes, connector hit testing, and physical haptic checks remain deferred until performed.
 
 ## Original decisions (2026-11-21)
 

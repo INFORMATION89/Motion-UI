@@ -178,15 +178,23 @@ For tasks that do not modify code (for example, documentation-only changes), do 
 
 ## 8. Cost-aware verification and CI
 
-- Prefer a focused unit test, lint task, or module build during implementation.
-- Batch related changes and run the full required CI suite when the batch is ready, not after every small edit.
-- Reuse passing results only when the relevant code, dependencies, configuration, and environment have not changed. Record the tested SHA.
-- If one CI job fails, inspect its logs and rerun only the failed job when supported. Do not rerun successful jobs without a technical reason.
-- After an infrastructure failure, inspect evidence and allow at most one retry with a materially different setup. If it fails again, stop and report BLOCKED.
-- Do not repeatedly retry unchanged commands or environments.
-- Before adding a new expensive test layer, widening the matrix, or launching another full CI run beyond the agreed plan, explain the reason and obtain owner approval.
-- Device, emulator, live-source, and manual interaction checks must be reported as NOT TESTED or DEFERRED when they were not run. Passing CI is not proof of physical-device behavior.
-- Never weaken tests, suppress failures, or claim a check passed when it was not run and inspected.
+CI is event-driven. In this repository, a push to an open pull-request branch triggers a new workflow run. The concurrency group cancels a superseded run, but cancellation is not debouncing or rate limiting: the new run is still created, and already-started runner work may be wasted. A run count is not a billing report; do not infer charged minutes or money from cancelled-run records.
+
+AI agents must use the following operating procedure:
+
+1. **Set the verification budget before editing.** Identify the smallest local checks, the one complete CI run intended for the finished batch, and the conditions that would justify a follow-up. A normal coherent change batch gets one complete CI run. A second complete run is permitted only when the first reveals an actionable failure and the related fixes have been consolidated into one follow-up batch. Any further complete run for the same task requires the owner's approval unless it was explicitly included in the agreed plan.
+2. **Iterate locally.** Use focused unit tests, formatting checks, module builds, static inspection, and diff review while implementing. Do not use remote CI as an interactive debugger or push speculative fixes merely to discover the next error.
+3. **Batch before committing or pushing.** Group related source, test, build-configuration, and documentation changes. Do not create a commit or push after every file, small edit, formatting correction, or individual test fix. Finish the coherent batch, inspect the complete diff, run relevant local checks, and then publish one commit.
+4. **Use atomic multi-file commits.** A separate GitHub Contents API create_file or update_file call creates a separate commit. Never use one such call per file for a multi-file batch on a branch with CI triggers. Use a local Git worktree and one commit, or create all blobs and one Git tree/commit/ref update through the Git Data API. If the available tool cannot publish the batch atomically, do not fall back to multiple per-file commits; choose a suitable workflow or ask for the required environment.
+5. **Do not supersede useful running work.** When a CI run is active, normally let it finish and inspect its job results before pushing more changes. If a critical finding requires a fix, collect all known findings and publish one consolidated follow-up, not a stream of commits that repeatedly cancels the run.
+6. **Diagnose failures once, then fix as a batch.** Inspect the failing job's logs and classify the failure as code/test, build configuration, or infrastructure. Fix all known actionable causes together and run the narrowest local checks. When the SHA is unchanged and GitHub supports it, rerun only the failed job instead of creating a new commit and rerunning the entire workflow. Never create an empty or no-op commit just to trigger CI.
+7. **Reuse passing evidence.** Reuse results only when the relevant code, dependencies, configuration, and environment are unchanged. Record the tested SHA. Do not rerun successful jobs without a technical reason.
+8. **Limit infrastructure retries.** After an infrastructure failure, inspect the evidence and allow at most one retry with a materially different setup. If it fails again, stop and report BLOCKED. Do not repeatedly retry unchanged commands or environments.
+9. **Avoid unnecessary polling.** Inspect a workflow when it has had a reasonable opportunity to change, or when a decision depends on its result. Do not repeatedly refresh an unchanged run.
+10. **Require approval for expansion.** Before adding an expensive test layer, widening the matrix, or launching another complete CI run beyond the budget above, explain the reason and obtain the owner's approval. A targeted rerun of a failed job is preferred when supported.
+11. **Preserve required checks.** Do not add paths/paths-ignore filters, skip-CI commit markers, or conditional job skips solely to reduce run counts until required-check and branch-protection behavior has been verified. A skipped workflow can leave a required status pending and block merging. Do not weaken required verification as a cost shortcut.
+12. **Keep device checks separate.** Device, emulator, live-source, and manual interaction checks must be reported as NOT TESTED or DEFERRED when they were not run. Passing CI is not proof of physical-device behavior.
+13. **Preserve quality.** Never weaken tests, suppress failures, or claim a check passed when it was not run and inspected.
 
 ### Cost-aware test selection
 
