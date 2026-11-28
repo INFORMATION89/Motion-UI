@@ -91,6 +91,7 @@ On Windows, use `gradlew.bat` instead of `./gradlew`.
 - [Morph design study](docs/MORPH_STUDY.md)
 - [Project rules](docs/RULES.md)
 - [Repository instructions for AI agents](AGENTS.md)
+- [Roadmap to 1.0](docs/MOTION_ROADMAP.md)
 - [AI usage and cost policy](docs/AI_USAGE_POLICY.md)
 - [Claude Code usage guide](docs/agent-guides/CLAUDE_CODE_USAGE.md)
 - [ChatGPT Free session starter](docs/agent-guides/CHATGPT_FREE_STARTER.md)

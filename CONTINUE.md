@@ -32,11 +32,13 @@ Closed on 2026-11-28: #15 (superseded by #28). `fix/mot03b-pointer-injection-sco
 
 ## Next steps
 
-1. **Owner:** review #28 and #29; answer the remaining Q1 and Q6. Q2–Q5 were decided on 2026-11-28 (see "Owner decisions" in the [handoff](docs/CHATGPT_HANDOFF.md)): toolbar first, emulator required with docs-only skip, drag follows the finger, far jumps travel directly.
-2. **S5** (Sonnet 5.5, Motion-UI environment): #26 prototype fixes. Prompt: "Session B prompt (S5)" in the handoff.
-3. **S3** (ChatGPT Free, owner-assigned): research docs in their own docs-only PR.
-4. **O3** (Opus 5.5): smallest public toolbar API, after S5, Q4, and B1–B3 design.
-5. Reusable card/surface work comes later.
+The full plan to 1.0 is in [docs/MOTION_ROADMAP.md](docs/MOTION_ROADMAP.md): the definition of done, the audit findings, milestones M0–M7 with tiers and dependencies, and the owner decisions in order. Work through it one task row per session.
+
+Start now, in parallel:
+1. **Owner:** review and merge #28 and #29 (roadmap M0-1). Q1 and Q6 are still open.
+2. **S5** (Sonnet 5.5, Motion-UI environment): #26 prototype fixes (M0-2). Prompt: "Session B prompt (S5)" in the [handoff](docs/CHATGPT_HANDOFF.md).
+3. **M2-4 and M2-5** (Sonnet 5.5): Core finite-validation gaps and tests for untested public APIs. Neither needs owner approval.
+4. **H tasks** below (Haiku 5.5 or ChatGPT Free).
 
 ## Haiku tasks (tier H)
 
