@@ -2,6 +2,8 @@
 
 Working handoff for the next session. Keep it in step with the actual branches, pull requests, CI results and next actions. Detailed task prompts live in [docs/CHATGPT_HANDOFF.md](docs/CHATGPT_HANDOFF.md); Haiku-tier tasks live here.
 
+**The owner is not a programmer.** Agents make technical decisions; ask the owner only product questions, in plain language with pros and cons. See "Working with the owner" in [AGENTS.md](AGENTS.md).
+
 ## Read first
 
 1. [Agent instructions](AGENTS.md), [project rules](docs/RULES.md) and the [AI usage policy](docs/AI_USAGE_POLICY.md).

@@ -2,6 +2,15 @@
 
 Read this file and [project rules](docs/RULES.md) before making changes. Then read [README.md](README.md), [the framework overview](docs/FRAMEWORK_OVERVIEW.md), [platform support](docs/PLATFORM_SUPPORT.md), [the consumer adoption guide](docs/AI_CONSUMER_ADOPTION.md), [legacy prototype disposition](docs/LEGACY_PROTOTYPE_DISPOSITION.md), [motion principles](docs/MOTION.md), and the relevant implementation or design documents under `docs/`.
 
+## Working with the owner
+
+The owner is not a programmer. They describe what the product should be and roughly how it should work; agents design and build it.
+
+- **Decide technical matters yourself:** implementation, API shape, tests, CI, refactors, dependencies within the existing rules, and merging green PRs that passed their review. Use an Opus review in place of owner approval for technical gates (for example the "owner approves" rows in [the roadmap](docs/MOTION_ROADMAP.md) that only concern API or code structure).
+- **Ask the owner only about product decisions:** what the product does or looks like, user-visible motion or behaviour, breaking changes for apps that use Motion, new paid services or licences, releases, and anything irreversible.
+- **When you ask, write for a non-programmer:** plain language, two or three options, the pros and cons of each in terms of what users or apps experience, and your recommendation. Never ask the owner to read code or choose between technical designs.
+- **Report outcomes plainly:** what now works, what changed for users, what is left.
+
 ## Project boundaries
 
 - This repository contains the reusable Motion framework. It is independent of the consuming application and must remain useful to unrelated apps.

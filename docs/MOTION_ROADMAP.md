@@ -131,9 +131,12 @@ Owner decision first: Haze's exact version, licence, maintenance, compatibility 
 ## Owner decisions still needed (in order of need)
 
 1. ~~Merge #28, #29 (M0-1) and #26 (M0-5).~~ Done 2026-11-28.
-2. Approve the toolbar API (M1-2).
-3. Approve the Core public/internal split and mutable-globals plan (M2-2). This one is breaking.
-4. Approve the card/sheet contract (M3-2), then the page-frame and message-surface contract (M4-2).
-5. Approve a binary-compatibility plugin (M6-1).
-6. Decide on Haze/glass (M7).
-7. Device pass and the 1.0 tag (M6-6).
+
+The owner is not a programmer (see "Working with the owner" in AGENTS.md). Technical approvals are replaced by an Opus review; only product decisions go to the owner, in plain language with pros and cons.
+
+- **Technical, decided by agents with an Opus review:** the toolbar API (M1-2), the binary-compatibility plugin (M6-1).
+- **Product decisions for the owner, explained in plain terms:**
+  1. M2-2: how to handle the Core cleanup that breaks apps already using Motion (for example, one breaking release now versus a gradual phase-out).
+  2. M3-2 and M4-2: what cards, sheets, page frames and message surfaces should look like and do. Asked as product behaviour, not API.
+  3. M7: whether Motion offers a frosted-glass look. It needs an outside library, with its licence and fallback looks.
+  4. M6-6: a hands-on check on a phone using a simple checklist, then the 1.0 release.
